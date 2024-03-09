@@ -29,21 +29,31 @@ pip install -r requirements.txt
 ```
 
 ## Usage
-To scan a WordPress plugin, use the following command:
 
 ```bash
-python wpps.py scan -p <path_to_plugin>
+python3 wpps.py scan -h
 ```
 
-Replace <path_to_plugin> with the path to the WordPress plugin you want to scan.
+This will display help for scan function.
 
-For more options and detailed usage instructions, refer to the documentation.
+```
+usage: wpps.py scan [-h] [-u URL] [-t THREADS] [-l LIST]
+
+options:
+  -h, --help            show this help message and exit
+  -u URL, --url URL     target URL (e.g https://example.com)
+  -t THREADS, --threads THREADS
+                        number of threads to scan (default: 5)
+  -l LIST, --list LIST  specify plugins list to scan (default: all plugins -> please change the list until you feel hopeless)
+```
+
+For more options and detailed usage instructions, refer to the help option.
 
 ## Contributing
 Contributions are welcome! If you find any issues or want to add new features, please open an issue or submit a pull request.
 
 ## Contact
-For any questions or inquiries, feel free to contact the project maintainer:
+For any questions or inquiries, feel free to contact me:
 
 Name: Ngo Minh Duc
 
