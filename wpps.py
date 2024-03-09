@@ -21,18 +21,18 @@ __        __            _ ____
 """)
     
     parser = argparse.ArgumentParser(description="Usage:")
-    sub_parsers = parser.add_subparsers(help="Sub Modules", dest="module")
+    sub_parsers = parser.add_subparsers(dest="module")
     
     scan_parsers = sub_parsers.add_parser("scan", help="Scan Wordpress Plugins")
-    scan_parsers.add_argument('-u', '--url', help='Target URL (e.g https://example.com)')
-    scan_parsers.add_argument('-t', '--threads', help='Number of threads to scan (Default is 5)')
-    scan_parsers.add_argument('-l', '--list', help='Specify plugins list to scan (Default is all plugins -> Please change the list until you feel hopeless)')
+    scan_parsers.add_argument('-u', '--url', help='target URL (e.g https://example.com)')
+    scan_parsers.add_argument('-t', '--threads', help='number of threads to scan (default: 5)')
+    scan_parsers.add_argument('-l', '--list', help='specify plugins list to scan (default: all plugins -> please change the list until you feel hopeless)')
 
-    update_parsers = sub_parsers.add_parser("update", help="Update Wordpress Plugins")
+    update_parsers = sub_parsers.add_parser("update", help="update Wordpress Plugins")
 
-    check_parsers = sub_parsers.add_parser("check", help="Check Version of Wordpress Plugins")
-    check_parsers.add_argument('-p', '--plugin', help='Specify Wordpress plugin to check')
-    check_parsers.add_argument('-v', '--version', help='Specify Wordpress plugin version to check')
+    check_parsers = sub_parsers.add_parser("check", help="check Version of Wordpress Plugins")
+    check_parsers.add_argument('-p', '--plugin', help='specify Wordpress plugin to check')
+    check_parsers.add_argument('-v', '--version', help='specify Wordpress plugin version to check')
 
     args = parser.parse_args()
     if args.module == "scan":

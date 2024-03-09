@@ -16,7 +16,7 @@ class Scan:
     @staticmethod
     def is_url_alive(url):
         try:
-            response = requests.get(url, headers=config.headers, verify=False)
+            response = requests.get(url, headers=config.headers)
             return response.status_code < 500
         except requests.exceptions.RequestException:
             return False
@@ -32,11 +32,10 @@ class Scan:
     @staticmethod
     def detect_exist_plugin(url, plugin):
         url = "{}/wp-content/plugins/{}/readme.txt".format(url, plugin)
-        response = requests.get(url, headers=config.headers, verify=False)
+        response = requests.get(url, headers=config.headers)
         if response.status_code == 200:
             version = re.findall(config.version_regex, response.text)
-            if version:
-                version = version[0]
+            version = version[0] if version else ""
             print("[{}] {} [{}]".format(Color.Green + plugin + Color.Reset, url, Color.Yellow + version + Color.Reset))
             Check.check_plugin_version(plugin, version)
 
