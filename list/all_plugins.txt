@@ -1,0 +1,3 @@
+elementor
+contact-form-7
+wordpress-seo
