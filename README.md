@@ -39,12 +39,14 @@ Replace <path_to_plugin> with the path to the WordPress plugin you want to scan.
 
 For more options and detailed usage instructions, refer to the documentation.
 
-Contributing
+## Contributing
 Contributions are welcome! If you find any issues or want to add new features, please open an issue or submit a pull request.
 
-Contact
+## Contact
 For any questions or inquiries, feel free to contact the project maintainer:
 
 Name: Ngo Minh Duc
+
 Email: duc.hacker.ngo@gmail.com
+
 Happy scanning!
