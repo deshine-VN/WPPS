@@ -1,12 +1,14 @@
-from bs4 import BeautifulSoup
+from color import Color
+import hashlib
 import requests
+import json
 import os
 
 class Update:
     @staticmethod
-    def update():
+    def update_plugins():
         headers = {
-            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:123.0) Gecko/20100101 Firefox/123.0"
+            "User-Agent": "Wordpress/1.0"
         }
         all_plugins = []
         over_1000_plugins = []
@@ -46,3 +48,43 @@ class Update:
         with open(os.getcwd() + "/list/over_20000_plugins.txt", "w") as file:
             file.write("\n".join(over_20000_plugins))
         print("Done!")
+
+    @staticmethod
+    def is_new_vulnerabilities_database():
+        response = requests.get("https://www.wordfence.com/api/intelligence/v2/vulnerabilities/production")
+        new_hash = hashlib.md5(response.content).hexdigest()
+        with open(os.getcwd() + "/database/wordfence.json", "rb") as file:
+            content = file.read()
+            current_hash = hashlib.md5(content).hexdigest()
+            if current_hash == new_hash:
+                return False
+        with open(os.getcwd() + "/database/wordfence.json", "wb") as file:
+            file.write(response.content)
+            return True
+
+    @staticmethod
+    def update_vulnerabilities_database():
+        if Update.is_new_vulnerabilities_database():
+            print("[{}] {}".format(Color.Yellow + "WARNING" + Color.Reset, "There is a new version of vulnerabilities database. Updating ..."))
+            database = {}
+            with open(os.getcwd() + "/database/wordfence.json", "r") as file:
+                content = file.read()
+                vulnerabilities = json.loads(content)
+                for vulnerability in vulnerabilities:
+                    try:
+                        database[vulnerabilities[vulnerability]["software"][0]["slug"]].append({
+                            "title": vulnerabilities[vulnerability]["title"],
+                            "cve": vulnerabilities[vulnerability]["cve"],
+                            "affected_versions": vulnerabilities[vulnerability]["software"][0]["affected_versions"]
+                        })
+                    except:
+                        database[vulnerabilities[vulnerability]["software"][0]["slug"]] = []
+                        database[vulnerabilities[vulnerability]["software"][0]["slug"]].append({
+                            "title": vulnerabilities[vulnerability]["title"],
+                            "cve": vulnerabilities[vulnerability]["cve"],
+                            "affected_versions": vulnerabilities[vulnerability]["software"][0]["affected_versions"]
+                        })
+            
+            with open(os.getcwd() + "/database/database.json", "w") as file:
+                file.write(json.dumps(database))
+            print("[{}] {}".format(Color.Green + "OK" + Color.Reset, "Update successfully."))
