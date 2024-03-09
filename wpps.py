@@ -2,8 +2,7 @@ import argparse
 import os
 from scan import Scan
 from update import Update
-from color import Color
-
+from check import Check
 
 def main():
     os.environ['OPENSSL_CONF'] = os.getcwd() + "/openssl.cnf"
@@ -31,10 +30,14 @@ __        __            _ ____
 
     update_parsers = sub_parsers.add_parser("update", help="Update Wordpress Plugins")
 
+    check_parsers = sub_parsers.add_parser("check", help="Check Version of Wordpress Plugins")
+    check_parsers.add_argument('-p', '--plugin', help='Specify Wordpress plugin to check')
+    check_parsers.add_argument('-v', '--version', help='Specify Wordpress plugin version to check')
+
     args = parser.parse_args()
-    threads = 5
-    plugins_list_path = os.getcwd() + "/list/all_plugins.txt"
     if args.module == "scan":
+        threads = 5
+        plugins_list_path = os.getcwd() + "/list/all_plugins.txt"
         if args.threads:
             threads = int(args.threads)
         if args.list:
@@ -44,6 +47,11 @@ __        __            _ ____
 
     if args.module == "update":
         Update.update_plugins()
+        return
+    
+    if args.module == "check":
+        if args.plugin and args.version:
+            Check.check_plugin_version(args.plugin, args.version)
         return
 
 if __name__ == "__main__": 

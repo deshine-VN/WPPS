@@ -30,8 +30,8 @@ class Scan:
             return False
         
     @staticmethod
-    def detect_exist_plugin(url, plugin, filename):
-        url = "{}/wp-content/plugins/{}/{}".format(url, plugin, filename)
+    def detect_exist_plugin(url, plugin):
+        url = "{}/wp-content/plugins/{}/readme.txt".format(url, plugin)
         response = requests.get(url, headers=config.headers, verify=False)
         if response.status_code == 200:
             version = re.findall(config.version_regex, response.text)
@@ -56,5 +56,4 @@ class Scan:
             plugins = content.split("\n")
         with concurrent.futures.ThreadPoolExecutor(max_workers=threads) as executor:
             for plugin in plugins:
-                for filename in config.filenames:
-                    executor.submit(Scan.detect_exist_plugin, url, plugin, filename)       
+                    executor.submit(Scan.detect_exist_plugin, url, plugin)       

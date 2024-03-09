@@ -6,6 +6,6 @@ headers = {
     "Connection": "close"
 }
 
-filenames = ["readme.txt", "README.txt", "README.md", "readme.md", "Readme.txt", "README.TXT", "ReadMe.txt", "changelog.txt", "changelog.md", "CHANGELOG.md"]
+filenames = ["readme.txt", "changelog.txt"]
 
 version_regex = r"(?i)Stable.tag:\s?([\w.]+)"
