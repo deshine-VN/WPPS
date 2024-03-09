@@ -1,6 +1,6 @@
 # WPPS - Wordpress Plugins Scan
 
-WPPS (Wordpress Plugins Scan) is a Python tool designed to scan and analyze WordPress plugins for security vulnerabilities. It provides a command-line interface for scanning plugins and generating reports.
+WPPS (Wordpress Plugins Scan) is a Python tool designed to scan and analyze WordPress plugins for security vulnerabilities. It provides a command-line interface for scanning plugins and detecting vulnerabilities.
 
 ## Features
 
