@@ -13,23 +13,23 @@ WPPS (Wordpress Plugins Scan) is a Python tool designed to scan and analyze Word
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/deshine-VN/WPPS.git```
+git clone https://github.com/deshine-VN/WPPS.git
 
 2. Navigate to the project directory:
 
 ```bash
-cd WPPS```
+cd WPPS
 
 3. Install the required dependencies:
 
 ```bash
-pip install -r requirements.txt```
+pip install -r requirements.txt
 
 ## Usage
 To scan a WordPress plugin, use the following command:
 
 ```bash
-python wpps.py scan -p <path_to_plugin>```
+python wpps.py scan -p <path_to_plugin>
 
 Replace <path_to_plugin> with the path to the WordPress plugin you want to scan.
 
