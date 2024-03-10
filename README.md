@@ -49,6 +49,8 @@ options:
 
 For more options and detailed usage instructions, refer to the help option.
 
+<img src="image.png" alt="nuclei-flow" width="700px"></a>
+
 ## Contributing
 Contributions are welcome! If you find any issues or want to add new features, please open an issue or submit a pull request.
 
