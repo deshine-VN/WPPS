@@ -36,7 +36,7 @@ class Scan:
         if response.status_code == 200:
             version = re.findall(config.version_regex, response.text)
             version = version[0] if version else ""
-            print("[{}] {} [{}]".format(Color.Green + plugin + Color.Reset, url, Color.Yellow + version + Color.Reset))
+            print("[{}] {} [{}]".format(Color.Green + plugin + Color.Reset, url, Color.Cyan + version + Color.Reset))
             Check.check_plugin_version(plugin, version)
 
     @staticmethod
