@@ -9,4 +9,4 @@ proxies = {
 
 filenames = ["readme.txt", "changelog.txt"]
 
-version_regex = r"(?i)Stable.tag:\s?([\w.]+)"
+version_regex = r"(?i)Stable.tag:\s+?([\w.]+)"
