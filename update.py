@@ -1,4 +1,5 @@
 from color import Color
+import config
 import hashlib
 import requests
 import json
@@ -7,9 +8,6 @@ import os
 class Update:
     @staticmethod
     def update_plugins():
-        headers = {
-            "User-Agent": "Wordpress/1.0"
-        }
         all_plugins = []
         over_1000_plugins = []
         over_2000_plugins = []
@@ -19,7 +17,7 @@ class Update:
         page = 1
         while True:
             print(page)
-            response = requests.get("https://api.wordpress.org/plugins/info/1.2/?action=query_plugins&request[page]={}&request[per_page]=500".format(page), headers=headers).json()
+            response = requests.get("https://api.wordpress.org/plugins/info/1.2/?action=query_plugins&request[page]={}&request[per_page]=500".format(page), headers=config.headers).json()
             if not response["plugins"]:
                 break
             for plugin in response["plugins"]:
@@ -47,7 +45,7 @@ class Update:
             file.write("\n".join(over_10000_plugins))
         with open(os.getcwd() + "/list/over_20000_plugins.txt", "w") as file:
             file.write("\n".join(over_20000_plugins))
-        print("Done!")
+        print("[{}] {}".format(Color.Green + "OK" + Color.Reset, "Update successfully."))
 
     @staticmethod
     def is_new_vulnerabilities_database():
