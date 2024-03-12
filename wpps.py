@@ -5,7 +5,6 @@ from update import Update
 from check import Check
 
 def main():
-    os.environ['OPENSSL_CONF'] = os.getcwd() + "/openssl.cnf"
     print(r"""
 __        __            _ ____                                           
 \ \      / /__  _ __ __| |  _ \ _ __ ___  ___ ___                        
