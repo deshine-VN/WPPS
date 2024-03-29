@@ -10,6 +10,7 @@ def main():
     
     scan_parsers = sub_parsers.add_parser("scan", help="scan Wordpress plugins")
     scan_parsers.add_argument('-u', '--url', help='target url (e.g https://example.com)')
+    scan_parsers.add_argument('-prp', '--plugin_root_path', help='the root path of plugin of server (defalut: /wp-content/plugins/)')
     scan_parsers.add_argument('-t', '--threads', help='number of threads to scan (default: 5)')
     scan_parsers.add_argument('-l', '--list', help='specify plugins list to scan (default: all plugins -> please change the list until you feel hopeless)')
 
@@ -23,11 +24,14 @@ def main():
     if args.module == "scan":
         threads = 5
         plugins_list_path = os.getcwd() + "/list/all_plugins.txt"
+        plugin_root_path = "/wp-content/plugins/"
         if args.threads:
             threads = int(args.threads)
         if args.list:
             plugins_list_path = args.list
-        Scan.scan(args.url, threads, plugins_list_path)
+        if args.plugin_root_path:
+            plugin_root_path = args.plugin_root_path
+        Scan.scan(args.url, threads, plugins_list_path, plugin_root_path)
         return
 
     if args.module == "update":
