@@ -14,7 +14,7 @@ class Check:
             return False
 
     @staticmethod
-    def check_plugin_version(plugin, version):
+    def check_version(plugin, version):
         with open(os.getcwd() + "/database/database.json", "r") as file:
             content = file.read()
             database = json.loads(content)

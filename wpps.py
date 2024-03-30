@@ -23,7 +23,8 @@ def main():
     args = parser.parse_args()
     if args.module == "scan":
         threads = 5
-        plugins_list_path = os.getcwd() + "/list/all.txt"
+        plugins_list_path = os.getcwd() + "/list/all_plugins.txt"
+        themes_list_path = os.getcwd() + "/list/all_themes.txt"
         wordpress_content_path = "/wp-content"
         if args.threads:
             threads = int(args.threads)
@@ -31,7 +32,7 @@ def main():
             plugins_list_path = args.list
         if args.wordpress_content_path:
             wordpress_content_path = args.wordpress_content_path
-        Scan.scan(args.url, threads, plugins_list_path, wordpress_content_path)
+        Scan.scan(args.url, threads, plugins_list_path, themes_list_path, wordpress_content_path)
         return
 
     if args.module == "update":
@@ -40,7 +41,7 @@ def main():
     
     if args.module == "check":
         if args.plugin and args.version:
-            Check.check_plugin_version(args.plugin, args.version)
+            Check.check_version(args.plugin, args.version)
         return
 
 if __name__ == "__main__": 

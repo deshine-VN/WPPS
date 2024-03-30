@@ -9,7 +9,8 @@ class Update:
     @staticmethod
     def update_plugins():
         print("[{}] {}".format(Color.Yellow + "WARNING" + Color.Reset, "Updating plugins!!!"))
-        all = []
+        all_plugins = []
+        all_themes = []
         page = 1
         while True:
             print(page)
@@ -17,8 +18,10 @@ class Update:
             if not response["plugins"]:
                 break
             for plugin in response["plugins"]:
-                all.append(plugin["slug"])
+                all_plugins.append(plugin["slug"])
             page += 1
+        with open(os.getcwd() + "/list/all_plugins.txt", "w") as file:
+            file.write("\n".join(all_plugins))
 
         print("[{}] {}".format(Color.Yellow + "WARNING" + Color.Reset, "Updating themes!!!"))
         page = 1
@@ -28,10 +31,10 @@ class Update:
             if not response["themes"]:
                 break
             for theme in response["themes"]:
-                all.append(theme["slug"])
+                all_themes.append(theme["slug"])
             page += 1
-        with open(os.getcwd() + "/list/all.txt", "w") as file:
-            file.write("\n".join(all))
+        with open(os.getcwd() + "/list/all_themes.txt", "w") as file:
+            file.write("\n".join(all_themes))
         print("[{}] {}".format(Color.Green + "OK" + Color.Reset, "Update successfully."))
 
     @staticmethod

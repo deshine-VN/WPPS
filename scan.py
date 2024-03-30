@@ -38,10 +38,21 @@ class Scan:
             version = re.findall(config.version_regex, response.text)
             version = version[0] if version else ""
             print("[{}] {} [{}]".format(Color.Green + plugin + Color.Reset, url, Color.Cyan + version + Color.Reset))
-            Check.check_plugin_version(plugin, version)
+            Check.check_version(plugin, version)
 
     @staticmethod
-    def scan(url, threads, plugins_list_path, wordpress_content_path):
+    def detect_exist_theme(url, theme, wordpress_content_path):
+        url = "{}{}/themes/{}/readme.txt".format(url, wordpress_content_path, theme)
+        print(url)
+        response = requests.get(url, headers=config.headers)
+        if response.status_code == 200:
+            version = re.findall(config.version_regex, response.text)
+            version = version[0] if version else ""
+            print("[{}] {} [{}]".format(Color.Green + theme + Color.Reset, url, Color.Cyan + version + Color.Reset))
+            Check.check_version(theme, version)
+
+    @staticmethod
+    def scan(url, threads, plugins_list_path, themes_list_path, wordpress_content_path):
         Update.update_vulnerabilities_database()
         if not Scan.is_valid_url(url) or not Scan.is_url_alive(url):
             print("[{}] URL seems invalid or unreachable. Please check again!".format(Color.Red + "ERROR" + Color.Reset))
@@ -51,9 +62,17 @@ class Scan:
             url = url[:-1]
         print("[{}] Scanning Plugins...It will take a while, please do not terminate this!\n...".format(Color.Yellow + "WARNING" + Color.Reset))
         plugins = None
-        with open(plugins_list_path, "r") as file:
+        # with open(plugins_list_path, "r") as file:
+        #     content = file.read()
+        #     plugins = content.split("\n")
+        # with concurrent.futures.ThreadPoolExecutor(max_workers=threads) as executor:
+        #     for plugin in plugins:
+        #         executor.submit(Scan.detect_exist_plugin, url, plugin, wordpress_content_path)       
+        
+        themes = None
+        with open(themes_list_path, "r") as file:
             content = file.read()
-            plugins = content.split("\n")
+            themes = content.split("\n")
         with concurrent.futures.ThreadPoolExecutor(max_workers=threads) as executor:
-            for plugin in plugins:
-                    executor.submit(Scan.detect_exist_plugin, url, plugin, wordpress_content_path)       
+            for theme in themes:
+                executor.submit(Scan.detect_exist_theme, url, theme, wordpress_content_path)       
