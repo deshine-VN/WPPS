@@ -8,12 +8,8 @@ import os
 class Update:
     @staticmethod
     def update_plugins():
-        all_plugins = []
-        over_1000_plugins = []
-        over_2000_plugins = []
-        over_5000_plugins = []
-        over_10000_plugins = []
-        over_20000_plugins = []
+        print("[{}] {}".format(Color.Yellow + "WARNING" + Color.Reset, "Updating plugins!!!"))
+        all = []
         page = 1
         while True:
             print(page)
@@ -21,30 +17,21 @@ class Update:
             if not response["plugins"]:
                 break
             for plugin in response["plugins"]:
-                all_plugins.append(plugin["slug"])
-                if plugin["active_installs"] >= 1000:
-                    over_1000_plugins.append(plugin["slug"])
-                if plugin["active_installs"] >= 2000:
-                    over_2000_plugins.append(plugin["slug"])
-                if plugin["active_installs"] >= 5000:
-                    over_5000_plugins.append(plugin["slug"])
-                if plugin["active_installs"] >= 10000:
-                    over_10000_plugins.append(plugin["slug"])
-                if plugin["active_installs"] >= 20000:
-                    over_20000_plugins.append(plugin["slug"])
+                all.append(plugin["slug"])
             page += 1
-        with open(os.getcwd() + "/list/all_plugins.txt", "w") as file:
-            file.write("\n".join(all_plugins))
-        with open(os.getcwd() + "/list/over_1000_plugins.txt", "w") as file:
-            file.write("\n".join(over_1000_plugins))
-        with open(os.getcwd() + "/list/over_2000_plugins.txt", "w") as file:
-            file.write("\n".join(over_2000_plugins))
-        with open(os.getcwd() + "/list/over_5000_plugins.txt", "w") as file:
-            file.write("\n".join(over_5000_plugins))
-        with open(os.getcwd() + "/list/over_10000_plugins.txt", "w") as file:
-            file.write("\n".join(over_10000_plugins))
-        with open(os.getcwd() + "/list/over_20000_plugins.txt", "w") as file:
-            file.write("\n".join(over_20000_plugins))
+
+        print("[{}] {}".format(Color.Yellow + "WARNING" + Color.Reset, "Updating themes!!!"))
+        page = 1
+        while True:
+            print(page)
+            response = requests.get("https://api.wordpress.org/themes/info/1.2/?action=query_themes&request[page]={}&request[per_page]=500".format(page), headers=config.headers).json()
+            if not response["themes"]:
+                break
+            for theme in response["themes"]:
+                all.append(theme["slug"])
+            page += 1
+        with open(os.getcwd() + "/list/all.txt", "w") as file:
+            file.write("\n".join(all))
         print("[{}] {}".format(Color.Green + "OK" + Color.Reset, "Update successfully."))
 
     @staticmethod
