@@ -10,14 +10,15 @@ def main():
     
     scan_parsers = sub_parsers.add_parser("scan", help="scan Wordpress plugins and themes")
     scan_parsers.add_argument('-u', '--url', help='target url (e.g https://example.com)')
-    scan_parsers.add_argument('-wpc', '--wordpress_content_path', help='the root path of wordpress content of server (defalut: /wp-content)')
     scan_parsers.add_argument('-t', '--threads', help='number of threads to scan (default: 5)')
-    scan_parsers.add_argument('-l', '--list', help='specify plugins and themes list to scan (default: all plugins and themes -> please change the list until you feel hopeless)')
+    scan_parsers.add_argument('-pl', '--plugin_list', help='specify plugins list to scan (default: all plugins -> please change the list until you feel hopeless)')
+    scan_parsers.add_argument('-tl', '--theme_list', help='specify themes list to scan (default: all themes -> please change the list until you feel hopeless)')
+
 
     update_parsers = sub_parsers.add_parser("update", help="update Wordpress plugins and themes")
 
     check_parsers = sub_parsers.add_parser("check", help="check version of Wordpress plugins and themes")
-    check_parsers.add_argument('-p', '--plugin', help='specify Wordpress plugin or theme to check')
+    check_parsers.add_argument('-s', '--slug', help='specify Wordpress plugin or theme to check')
     check_parsers.add_argument('-v', '--version', help='specify Wordpress plugin or theme version to check vulnerabilities')
 
     args = parser.parse_args()
@@ -25,14 +26,13 @@ def main():
         threads = 5
         plugins_list_path = os.getcwd() + "/list/all_plugins.txt"
         themes_list_path = os.getcwd() + "/list/all_themes.txt"
-        wordpress_content_path = "/wp-content"
         if args.threads:
             threads = int(args.threads)
-        if args.list:
-            plugins_list_path = args.list
-        if args.wordpress_content_path:
-            wordpress_content_path = args.wordpress_content_path
-        Scan.scan(args.url, threads, plugins_list_path, themes_list_path, wordpress_content_path)
+        if args.plugin_list:
+            plugins_list_path = args.plugin_list
+        if args.theme_list:
+            themes_list_path = args.theme_list
+        Scan.scan(args.url, threads, plugins_list_path, themes_list_path)
         return
 
     if args.module == "update":
@@ -40,8 +40,8 @@ def main():
         return
     
     if args.module == "check":
-        if args.plugin and args.version:
-            Check.check_version(args.plugin, args.version)
+        if args.slug and args.version:
+            Check.check_version(args.slug, args.version)
         return
 
 if __name__ == "__main__": 

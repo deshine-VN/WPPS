@@ -30,9 +30,8 @@ class Scan:
             return False
         
     @staticmethod
-    def detect_exist_plugin(url, plugin, wordpress_content_path):
-        url = "{}{}/plugins/{}/readme.txt".format(url, wordpress_content_path, plugin)
-        print(url)
+    def detect_exist_plugin(url, plugin):
+        url = "{}/plugins/{}/readme.txt".format(url, plugin)
         response = requests.get(url, headers=config.headers)
         if response.status_code == 200:
             version = re.findall(config.version_regex, response.text)
@@ -41,9 +40,8 @@ class Scan:
             Check.check_version(plugin, version)
 
     @staticmethod
-    def detect_exist_theme(url, theme, wordpress_content_path):
-        url = "{}{}/themes/{}/readme.txt".format(url, wordpress_content_path, theme)
-        print(url)
+    def detect_exist_theme(url, theme):
+        url = "{}/themes/{}/readme.txt".format(url, theme)
         response = requests.get(url, headers=config.headers)
         if response.status_code == 200:
             version = re.findall(config.version_regex, response.text)
@@ -52,7 +50,7 @@ class Scan:
             Check.check_version(theme, version)
 
     @staticmethod
-    def scan(url, threads, plugins_list_path, themes_list_path, wordpress_content_path):
+    def scan(url, threads, plugins_list_path, themes_list_path):
         Update.update_vulnerabilities_database()
         if not Scan.is_valid_url(url) or not Scan.is_url_alive(url):
             print("[{}] URL seems invalid or unreachable. Please check again!".format(Color.Red + "ERROR" + Color.Reset))
@@ -67,7 +65,7 @@ class Scan:
             plugins = content.split("\n")
         with concurrent.futures.ThreadPoolExecutor(max_workers=threads) as executor:
             for plugin in plugins:
-                executor.submit(Scan.detect_exist_plugin, url, plugin, wordpress_content_path)       
+                executor.submit(Scan.detect_exist_plugin, url, plugin)       
         
         themes = None
         with open(themes_list_path, "r") as file:
@@ -75,4 +73,4 @@ class Scan:
             themes = content.split("\n")
         with concurrent.futures.ThreadPoolExecutor(max_workers=threads) as executor:
             for theme in themes:
-                executor.submit(Scan.detect_exist_theme, url, theme, wordpress_content_path)       
+                executor.submit(Scan.detect_exist_theme, url, theme)       
