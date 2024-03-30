@@ -62,12 +62,12 @@ class Scan:
             url = url[:-1]
         print("[{}] Scanning Plugins...It will take a while, please do not terminate this!\n...".format(Color.Yellow + "WARNING" + Color.Reset))
         plugins = None
-        # with open(plugins_list_path, "r") as file:
-        #     content = file.read()
-        #     plugins = content.split("\n")
-        # with concurrent.futures.ThreadPoolExecutor(max_workers=threads) as executor:
-        #     for plugin in plugins:
-        #         executor.submit(Scan.detect_exist_plugin, url, plugin, wordpress_content_path)       
+        with open(plugins_list_path, "r") as file:
+            content = file.read()
+            plugins = content.split("\n")
+        with concurrent.futures.ThreadPoolExecutor(max_workers=threads) as executor:
+            for plugin in plugins:
+                executor.submit(Scan.detect_exist_plugin, url, plugin, wordpress_content_path)       
         
         themes = None
         with open(themes_list_path, "r") as file:
