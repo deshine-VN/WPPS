@@ -44,7 +44,7 @@ class Update:
 
     @staticmethod
     def is_new_vulnerabilities_database():
-        response = requests.get("https://www.wordfence.com/api/intelligence/v2/vulnerabilities/production")
+        response = requests.get("https://www.wordfence.com/api/intelligence/v2/vulnerabilities/production", verify=False)
         new_hash = hashlib.md5(response.content).hexdigest()
         with open(os.getcwd() + "/database/wordfence.json", "rb") as file:
             content = file.read()
