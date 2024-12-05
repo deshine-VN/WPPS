@@ -4,7 +4,7 @@ from scan import Scan
 from update import Update
 from check import Check
 import gevent.monkey
-gevent.monkey.patch_all()
+gevent.monkey.patch_all(ssl=False)
 
 def main():
     parser = argparse.ArgumentParser(description="Usage:")
