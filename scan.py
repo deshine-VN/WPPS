@@ -16,7 +16,7 @@ class Scan:
     @staticmethod
     def is_url_alive(url):
         try:
-            response = requests.get(url, headers=config.headers)
+            response = requests.get(url, headers=config.headers, verify=False)
             return response.status_code < 500
         except requests.exceptions.RequestException:
             return False
@@ -32,7 +32,7 @@ class Scan:
     @staticmethod
     def detect_exist_plugin(url, plugin):
         url = "{}/plugins/{}/readme.txt".format(url, plugin)
-        response = requests.get(url, headers=config.headers)
+        response = requests.get(url, headers=config.headers, verify=False)
         if response.status_code == 200:
             version = re.findall(config.version_regex, response.text)
             version = version[0] if version else ""
@@ -42,7 +42,7 @@ class Scan:
     @staticmethod
     def detect_exist_theme(url, theme):
         url = "{}/themes/{}/readme.txt".format(url, theme)
-        response = requests.get(url, headers=config.headers)
+        response = requests.get(url, headers=config.headers, verify=False)
         if response.status_code == 200:
             version = re.findall(config.version_regex, response.text)
             version = version[0] if version else ""
