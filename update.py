@@ -4,6 +4,11 @@ import hashlib
 import requests
 import json
 import os
+import truststore
+import urllib3
+
+urllib3.disable_warnings()
+truststore.inject_into_ssl()
 
 class Update:
     @staticmethod
