@@ -19,7 +19,7 @@ class Update:
         page = 1
         while True:
             print(page)
-            response = requests.get("https://api.wordpress.org/plugins/info/1.2/?action=query_plugins&request[page]={}&request[per_page]=500".format(page), headers=config.headers).json()
+            response = requests.get("https://api.wordpress.org/plugins/info/1.2/?action=query_plugins&request[page]={}&request[per_page]=500".format(page), headers=config.headers, verify=False).json()
             if not response["plugins"]:
                 break
             for plugin in response["plugins"]:
@@ -32,7 +32,7 @@ class Update:
         page = 1
         while True:
             print(page)
-            response = requests.get("https://api.wordpress.org/themes/info/1.2/?action=query_themes&request[page]={}&request[per_page]=500".format(page), headers=config.headers).json()
+            response = requests.get("https://api.wordpress.org/themes/info/1.2/?action=query_themes&request[page]={}&request[per_page]=500".format(page), headers=config.headers, verify=False).json()
             if not response["themes"]:
                 break
             for theme in response["themes"]:
